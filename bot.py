@@ -1,5 +1,15 @@
 import discord
 from discord.ext import commands
+import json
+
+
+with open('setting.json', 'r', encoding = 'utf8') as jfile:
+    jdata = json.load(jfile)
+    token = jdata['TOKEN']
+    welcome_channel = jdata['WELCOME']
+    leave_channel = jdata['LEAVE']
+    pic = jdata['PIC_PATH']
+
 
 bot = commands.Bot(command_prefix = '[')
 
@@ -23,6 +33,12 @@ async def ping(ctx):
 
 @bot.command()
 async def hi(ctx):
-    await ctx.send('hello '+ str(ctx.author))
+    await ctx.send('hello '+ str(ctx.author) + ". Hope you make a lot of money today!")
 
-bot.run('NzQxODE4NDgxNTM5ODA5MzMx.Xy9GTA.wc140Z4QPRl36wwfIGHqP-1O9CI')
+@bot.command()
+async def pic(ctx):
+    picture = discord.File(jdata['PIC_PATH'])
+    await ctx.send(file = picture)
+
+
+bot.run(token)
